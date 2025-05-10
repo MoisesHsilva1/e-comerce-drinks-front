@@ -1,27 +1,43 @@
 import { useNavigate } from "react-router";
+import { useState } from "react";
+import userRegister from "../../../hooks/useRegister";
 import Input from "../../UI/atoms/inputs/Input";
 import Button from "../../UI/atoms/buttons/Button";
-import { useState } from "react";
 
 function Register() {
   const navigate = useNavigate();
 
-  const inputsRegister = {
+  const [inputsValue, setInputsValue] = useState({
     name: "",
     email: "",
-    tel: "",
     password: "",
     confirmPassword: "",
-  };
+  });
 
-  const [inputsValue, setInputsValue] = useState(inputsRegister);
+  const { registerUser, isError, isLoading, data, error } = userRegister();
 
   const handleInputsValue = (e) => {
     setInputsValue({ ...inputsValue, [e.target.name]: e.target.value });
   };
 
+  const validatePassword = () => {
+    inputsValue.password !== inputsValue.confirmPassword
+      ? alert("As senhas não coincidem.")
+      : "";
+  };
+
   const handleSubmitRegisterUser = (event) => {
     event.preventDefault();
+
+    validatePassword();
+
+    const formData = {
+      displayName: inputsValue.name,
+      email: inputsValue.email,
+      password: inputsValue.confirmPassword,
+    };
+
+    registerUser(formData);
   };
 
   return (
@@ -51,15 +67,8 @@ function Register() {
             placeholder="Digite seu e-mail"
           />
           <Input
-            type="number"
-            value={inputsValue.tel}
-            label="Telefone"
-            name="tel"
-            placeholder="(00)00000-0000"
-            onChange={handleInputsValue}
-          />
-          <Input
             type="password"
+            maxLength={8}
             value={inputsValue.password}
             label="Senha"
             name="password"
@@ -68,13 +77,24 @@ function Register() {
           />
           <Input
             type="password"
+            maxLength={8}
             value={inputsValue.confirmPassword}
             label="Confirmar senha"
             name="confirmPassword"
             placeholder="Digite sua senha novamente"
             onChange={handleInputsValue}
           />
-          <Button children="Cadastrar" className="w-full h-10" />
+          <Button
+            type="submit"
+            children={isLoading ? "Cadastrando..." : "Cadastrar"}
+            className="w-full h-10"
+          />
+          {isError && (
+            <p className="text-red-500 text-sm mt-2">
+              Erro ao cadastrar:{" "}
+              {error?.response?.data?.message || "Tente novamente."}
+            </p>
+          )}
         </form>
         <span className="flex flex-row gap-2 mt-6">
           <p>Já tem uma conta?</p>

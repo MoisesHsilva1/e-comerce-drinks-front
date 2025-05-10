@@ -8,6 +8,7 @@ const Input = ({
   onChange,
   htmlFor,
   name,
+  maxLength,
 }) => {
   return (
     <>
@@ -16,6 +17,7 @@ const Input = ({
       </label>
 
       <input
+        maxLength={maxLength}
         id={id}
         value={value}
         onChange={onChange}
