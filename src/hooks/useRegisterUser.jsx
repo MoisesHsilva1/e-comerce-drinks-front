@@ -1,5 +1,4 @@
 import { useMutation } from "@tanstack/react-query";
-import { useNavigate } from "react-router";
 import axios from "axios";
 
 const sendUserData = async (userData) => {
@@ -10,18 +9,10 @@ const sendUserData = async (userData) => {
   return res.data;
 };
 
-const userRegister = () => {
-  const navigate = useNavigate();
-
+const userRegisterUser = (options) => {
   const mutation = useMutation({
     mutationFn: sendUserData,
-    onSuccess() {
-      alert("Cadastro realizado com sucesso!!");
-      navigate("/login");
-    },
-    onError() {
-      navigate("/cadastro");
-    },
+    ...options,
   });
 
   return {
@@ -32,4 +23,4 @@ const userRegister = () => {
   };
 };
 
-export default userRegister;
+export default userRegisterUser;

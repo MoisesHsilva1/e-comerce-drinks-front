@@ -1,7 +1,9 @@
 import { useNavigate } from "react-router";
 import { useState } from "react";
-import userRegister from "../../../hooks/useRegister";
+import toast, { Toaster } from "react-hot-toast";
+import userRegisterUser from "../../../hooks/useRegisterUser";
 import Input from "../../UI/atoms/inputs/Input";
+import InputPassword from "../../UI/atoms/inputs/InputPassword";
 import Button from "../../UI/atoms/buttons/Button";
 
 function Register() {
@@ -13,23 +15,45 @@ function Register() {
     password: "",
     confirmPassword: "",
   });
+  const [showPassword, setShowPassword] = useState(false);
+  const [hasClicked, setHasClicked] = useState(false);
 
-  const { registerUser, isError, isLoading, data, error } = userRegister();
+  const { registerUser, isError, isLoading } = userRegisterUser({
+    onSuccess: () => {
+      toast.success("Cadastro realizado!");
+      setTimeout(() => navigate("/login"), 1200);
+    },
+    onError: () => {
+      isError && toast.error("Erro ao cadastrar");
+    },
+  });
 
   const handleInputsValue = (e) => {
     setInputsValue({ ...inputsValue, [e.target.name]: e.target.value });
   };
 
   const validatePassword = () => {
-    inputsValue.password !== inputsValue.confirmPassword
-      ? alert("As senhas não coincidem.")
-      : "";
+    const { password, confirmPassword } = inputsValue;
+
+    return password !== confirmPassword
+      ? (toast.error("As senhas não coincidem."), false)
+      : !/^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}$/.test(
+          password
+        )
+      ? (toast.error(
+          "A senha precisa ter pelo menos 8 caracteres, incluir uma letra maiúscula, uma minúscula, um número e um caractere especial."
+        ),
+        false)
+      : true;
   };
 
   const handleSubmitRegisterUser = (event) => {
     event.preventDefault();
 
-    validatePassword();
+    if (hasClicked) return;
+    if (!validatePassword()) return;
+
+    setHasClicked(true);
 
     const formData = {
       displayName: inputsValue.name,
@@ -50,6 +74,7 @@ function Register() {
           onSubmit={handleSubmitRegisterUser}
           className="w-full flex flex-col gap-4"
         >
+          <Toaster />
           <Input
             type="text"
             value={inputsValue.name}
@@ -66,7 +91,7 @@ function Register() {
             onChange={handleInputsValue}
             placeholder="Digite seu e-mail"
           />
-          <Input
+          <InputPassword
             type="password"
             maxLength={8}
             value={inputsValue.password}
@@ -74,8 +99,10 @@ function Register() {
             name="password"
             placeholder="Digite sua senha"
             onChange={handleInputsValue}
+            setShowPassword={setShowPassword}
+            showPassword={showPassword}
           />
-          <Input
+          <InputPassword
             type="password"
             maxLength={8}
             value={inputsValue.confirmPassword}
@@ -83,18 +110,19 @@ function Register() {
             name="confirmPassword"
             placeholder="Digite sua senha novamente"
             onChange={handleInputsValue}
+            setShowPassword={setShowPassword}
+            showPassword={showPassword}
           />
           <Button
             type="submit"
+            disabled={
+              Object.values(inputsValue).some((value) => value === "") ||
+              hasClicked ||
+              isLoading
+            }
             children={isLoading ? "Cadastrando..." : "Cadastrar"}
             className="w-full h-10"
           />
-          {isError && (
-            <p className="text-red-500 text-sm mt-2">
-              Erro ao cadastrar:{" "}
-              {error?.response?.data?.message || "Tente novamente."}
-            </p>
-          )}
         </form>
         <span className="flex flex-row gap-2 mt-6">
           <p>Já tem uma conta?</p>

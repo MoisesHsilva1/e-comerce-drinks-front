@@ -1,6 +1,5 @@
 import { useMutation } from "@tanstack/react-query";
 import { signInWithEmailAndPassword } from "firebase/auth";
-import { useNavigate } from "react-router";
 import authFirebase from "../config/firebase";
 import axios from "axios";
 
@@ -30,28 +29,18 @@ const loginUserData = async ({ email, password }) => {
   return response.data;
 };
 
-const useLogin = () => {
-  const navigate = useNavigate();
-
+const useLoginUser = (options) => {
   const mutation = useMutation({
     mutationFn: loginUserData,
-    onSuccess: (data) => {
-      console.log("Login realizado com sucesso:", data);
-      localStorage.setItem("customToken", data.token);
-      navigate("/");
-    },
-    onError: (error) => {
-      console.error("Erro ao fazer login:", error);
-    },
+    ...options,
   });
 
   return {
     loginUser: mutation.mutate,
     isLoading: mutation.isLoading,
-    isError: mutation.isError,
     error: mutation.error,
     data: mutation.data,
   };
 };
 
-export default useLogin;
+export default useLoginUser;
