@@ -1,9 +1,10 @@
 import { Route, Routes } from "react-router";
 import HomePage from "../components/pages/HomePage";
-import RegisterPage from "../components/pages/RegisterPage";
-import LoginPage from "../components/pages/LoginPage";
-import RegisterProductPage from "../components/pages/RegisterProductPage";
-import EditAccountPage from "../components/pages/EditAccountPage";
+import RegisterPage from "../components/pages/user/RegisterPage";
+import LoginPage from "../components/pages/user/LoginPage";
+import EditAccountPage from "../components/pages/user/EditAccountPage";
+import RegisterProductPage from "../components/pages/product/RegisterProductPage";
+import ProductDetailsPage from "../components/pages/product/ProductDetailsPage";
 
 function AppRoutes() {
   return (
@@ -13,6 +14,7 @@ function AppRoutes() {
       <Route path="/login" element={<LoginPage />}></Route>
       <Route path="/editarConta" element={<EditAccountPage />}></Route>
       <Route path="/cadastroProduto" element={<RegisterProductPage />}></Route>
+      <Route path="/bebida" element={<ProductDetailsPage />}></Route>
     </Routes>
   );
 }
