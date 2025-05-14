@@ -11,7 +11,7 @@ const useListProducts = () => {
   } = useQuery({
     queryKey: ["listDrinks"],
     queryFn: async () => {
-      const { data } = await axios.get(`${apiUrl}drink/list`);
+      const { data } = await axios.get(`${apiUrl}/drink/list`);
       return data;
     },
   });

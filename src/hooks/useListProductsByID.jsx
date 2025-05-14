@@ -7,7 +7,7 @@ const useListProductsByID = (id) => {
   const { product, error, isLoading } = useQuery({
     queryKey: ["listProductsByID", id],
     queryFn: async () => {
-      const { data } = await axios.get(`${apiUrl}drink/findById/${id}`);
+      const { data } = await axios.get(`${apiUrl}/drink/findById/${id}`);
       return data;
     },
   });

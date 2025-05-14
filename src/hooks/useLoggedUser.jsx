@@ -14,7 +14,7 @@ const fetchLoggedUser = async () => {
 
   const idToken = await getIdToken(currentUser, true);
 
-  const response = await axios.get(`${apiUrl}user/logged`, {
+  const response = await axios.get(`${apiUrl}/user/logged`, {
     headers: {
       Authorization: `Bearer ${idToken}`,
       "Content-Type": "application/json",

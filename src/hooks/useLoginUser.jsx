@@ -15,7 +15,7 @@ const loginUserData = async ({ email, password }) => {
   const idToken = await userCredential.user.getIdToken();
 
   const response = await axios.post(
-    `${apiUrl}user/login`,
+    `${apiUrl}/user/login`,
     {},
     {
       headers: {
