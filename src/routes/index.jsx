@@ -14,7 +14,7 @@ function AppRoutes() {
       <Route path="/login" element={<LoginPage />}></Route>
       <Route path="/editarConta" element={<EditAccountPage />}></Route>
       <Route path="/cadastroProduto" element={<RegisterProductPage />}></Route>
-      <Route path="/bebida" element={<ProductDetailsPage />}></Route>
+      <Route path="/bebida/:id" element={<ProductDetailsPage />}></Route>
     </Routes>
   );
 }

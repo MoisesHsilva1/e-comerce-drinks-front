@@ -1,6 +1,9 @@
+import { useParams } from "react-router";
 import Button from "../atoms/buttons/Button";
 
 const ProductDetailsCard = ({ nameProduct, description, size, price }) => {
+  const params = useParams();
+
   return (
     <>
       <section className="bg-white rounded-3xl overflow-hidden shadow-xl grid md:grid-cols-2 gap-0">

@@ -3,11 +3,15 @@ import Button from "../atoms/buttons/Button";
 const ProductCard = ({
   nameProduct,
   price,
+  onClick,
   src,
   alt = "Imagem do produto",
 }) => {
   return (
-    <main className="flex flex-col w-44 p-2 bg-[#D9D9D9] shadow-md rounded-xl">
+    <main
+      onClick={onClick}
+      className="flex flex-col w-44 p-2 bg-[#D9D9D9] shadow-md rounded-xl"
+    >
       <figure className="w-full">
         <img
           className="w-full h-40 object-cover rounded-t-lg"
