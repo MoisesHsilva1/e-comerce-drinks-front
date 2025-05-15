@@ -17,7 +17,7 @@ function Home() {
           {products.map((product) => (
             <ProductCard
               key={product._id}
-              nameProduct={product.nameProduct}
+              nameProduct={product.name}
               src="public/assents/imageHome.webp"
               price={product.price}
               onClick={() => navigate(`/bebida/${product._id}`)}
