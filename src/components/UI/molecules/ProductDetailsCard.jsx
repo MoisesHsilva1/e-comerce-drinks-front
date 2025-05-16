@@ -9,7 +9,6 @@ const ProductDetailsCard = ({
   onChange,
   checked,
   name,
-  value,
 }) => {
   return (
     <section className="bg-white rounded-3xl shadow-xl grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-10 p-6 md:p-10">
@@ -30,14 +29,19 @@ const ProductDetailsCard = ({
           </div>
           <div>
             <h2 className="font-medium text-lg mb-2">Tamanho</h2>
-            <SelectInput
-              value={value}
-              name={name}
-              checked={checked}
-              onChange={onChange}
-            >
-              {size}
-            </SelectInput>
+            <div className="flex gap-4">
+              {Object.entries(size).map(([key, val]) => (
+                <SelectInput
+                  key={key}
+                  value={key}
+                  name={name}
+                  checked={checked === key}
+                  onChange={() => onChange(key)}
+                >
+                  {`${key.toUpperCase()}: ${val}ml`}
+                </SelectInput>
+              ))}
+            </div>
           </div>
         </div>
         <div className="bg-[#F1F8F4] px-6 py-4 flex flex-col md:flex-row justify-between items-center gap-4 rounded-2xl border border-[#D6E8DE]">

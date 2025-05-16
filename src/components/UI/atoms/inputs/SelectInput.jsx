@@ -14,7 +14,7 @@ const SelectInput = ({ value, name, checked, onChange, children }) => {
       />
       <div
         className={`
-          w-10 
+          w-full
           border border-gray-300 rounded-lg p-1 text-center
           transition-all duration-200
           peer-checked:bg-green-100
