@@ -1,35 +1,95 @@
-import { use, useState } from "react";
+import { useState } from "react";
 import Button from "../../UI/atoms/buttons/Button";
 import Input from "../../UI/atoms/inputs/Input";
 import InputImage from "../../UI/atoms/inputs/InputImage";
+import useCreateProduct from "../../../hooks/useCreateProduct";
+import toast, { Toaster } from "react-hot-toast";
 
 function RegisterProduct() {
   const [image, setImage] = useState(null);
-
-  const inputsRegisterProduct = {
+  const [inputValues, setInputsValue] = useState({
     name: "",
     description: "",
-    qtd: "",
+    qtd: { M: "", G: "", P: "" },
     price: "",
-    image: image,
-  };
+    image: null,
+  });
 
-  const [inputValues, setInputsValue] = useState(inputsRegisterProduct);
+  const { createProduct } = useCreateProduct({
+    onSuccess: () => {
+      toast.success("Produto criado com successo!!");
+    },
+    onError: () => {
+      toast.error(`Erro ao criar o produto`);
+    },
+  });
 
   const handleChangeInputs = (e) => {
-    setInputsValue({ ...inputValues, [e.target.name]: e.event.value });
+    const keys = e.target.name.split(".");
+    const value = e.target.value;
+
+    setInputsValue((prev) =>
+      keys.length === 2
+        ? {
+            ...prev,
+            [keys[0]]: {
+              ...prev[keys[0]],
+              [keys[1]]: value,
+            },
+          }
+        : {
+            ...prev,
+            [keys[0]]: value,
+          }
+    );
   };
 
-  console.log(inputValues)
+  const handleImageChange = (file) => {
+    setImage(file);
+    setInputsValue((prev) => ({
+      ...prev,
+      image: file,
+    }));
+  };
+
+  const sendProductData = (e) => {
+    e.preventDefault();
+
+    const formData = {
+      name: inputValues.name,
+      description: inputValues.description,
+      price: inputValues.price,
+      qtd: {
+        m: Number(inputValues.qtd.m),
+        g: Number(inputValues.qtd.g),
+        p: Number(inputValues.qtd.p),
+      },
+      image: image,
+    };
+
+    createProduct(formData);
+
+    setInputsValue({
+      name: "",
+      description: "",
+      qtd: { m: "", g: "", p: "" },
+      price: "",
+      image: null,
+    });
+    setImage(null);
+  };
 
   return (
     <main className="p-4">
       <section className="flex flex-col items-center min-h-screen py-8">
+        <Toaster/>
         <h1 className="text-2xl font-bold mb-6 text-center">
           Cadastro de Produtos
         </h1>
-
-        <form className="w-full max-w-md flex flex-col gap-4">
+        <form
+          className="w-full max-w-md flex flex-col gap-4"
+          onSubmit={sendProductData}
+        >
           <Input
             name="name"
             type="text"
@@ -48,10 +108,27 @@ function RegisterProduct() {
           />
           <Input
             type="number"
-            name="qtd"
-            label="Quantidade do produto (L/ML)"
-            placeholder="Digite a quantidade do produto"
-            value={inputValues.qtd}
+            name="qtd.m"
+            label="Quantidade (tamanho medio)"
+            placeholder="Ex: 500"
+            value={inputValues.qtd.m}
+            onChange={handleChangeInputs}
+          />
+          <Input
+            type="number"
+            name="qtd.g"
+            label="Quantidade (tamanho grande)"
+            placeholder="Ex: 1000"
+            value={inputValues.qtd.g}
+            onChange={handleChangeInputs}
+          />
+          <Input
+            type="number"
+            name="qtd.p"
+            label="Quantidade (tamanho pequeno)"
+            placeholder="Ex: 1500"
+            value={inputValues.qtd.p}
+            onChange={handleChangeInputs}
           />
           <Input
             type="number"
@@ -61,8 +138,8 @@ function RegisterProduct() {
             value={inputValues.price}
             onChange={handleChangeInputs}
           />
-          <InputImage name="image"  value={image} onChange={setImage} />
-          <Button children="Cadastrar" className="w-full" />
+          <InputImage name="image" value={image} onChange={handleImageChange} />
+          <Button type="submit" children="Cadastrar" className="w-full" />
         </form>
       </section>
     </main>

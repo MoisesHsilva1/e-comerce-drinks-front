@@ -5,6 +5,8 @@ import LoginPage from "../components/pages/user/LoginPage";
 import EditAccountPage from "../components/pages/user/EditAccountPage";
 import RegisterProductPage from "../components/pages/product/RegisterProductPage";
 import ProductDetailsPage from "../components/pages/product/ProductDetailsPage";
+import ProductSearchResultPage from "../components/pages/product/ProductSearchResultPage";
+import ProductCartPage from "../components/pages/product/ProductCartPage";
 
 function AppRoutes() {
   return (
@@ -15,6 +17,8 @@ function AppRoutes() {
       <Route path="/editarConta" element={<EditAccountPage />}></Route>
       <Route path="/cadastroProduto" element={<RegisterProductPage />}></Route>
       <Route path="/bebida/:id" element={<ProductDetailsPage />}></Route>
+      <Route path="/buscar/:name" element={<ProductSearchResultPage />}></Route>
+      <Route path="/carrinho" element={<ProductCartPage />}></Route>
     </Routes>
   );
 }

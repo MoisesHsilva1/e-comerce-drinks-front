@@ -9,12 +9,15 @@ const ProductDetailsCard = ({
   onChange,
   checked,
   name,
+  src,
+  onClick,
+  disabled,
 }) => {
   return (
     <section className="bg-white rounded-3xl shadow-xl grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-10 p-6 md:p-10">
       <figure className="w-full h-72 md:h-auto rounded-3xl overflow-hidden">
         <img
-          src=""
+          src={src}
           alt="Imagem do produto"
           className="w-full h-full object-cover bg-gray-200"
         />
@@ -47,9 +50,9 @@ const ProductDetailsCard = ({
         <div className="bg-[#F1F8F4] px-6 py-4 flex flex-col md:flex-row justify-between items-center gap-4 rounded-2xl border border-[#D6E8DE]">
           <div className="text-center md:text-left">
             <p className="text-sm text-[#4E625A]">Preço</p>
-            <p className="text-2xl font-bold text-[#1B5E20]">{price}</p>
+            <p className="text-2xl font-bold text-[#1B5E20]">R$ {price}</p>
           </div>
-          <Button className="w-full md:w-auto min-w-[200px]">
+          <Button disabled={disabled} onClick={onClick} className="w-full md:w-auto min-w-[200px]">
             Adicionar ao carrinho
           </Button>
         </div>

@@ -15,7 +15,7 @@ function Footer() {
         <button onClick={() => navigate("/")}>
           <IconHome />
         </button>
-        <button>
+        <button onClick={() => navigate("/carrinho")}>
           <IconCart />
         </button>
         <button onClick={() => navigate(user ? "/editarConta" : "/login")}>

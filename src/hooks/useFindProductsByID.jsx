@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 
-const useListProductsByID = (id) => {
+const useFindProductsByID = (id) => {
   const apiUrl = import.meta.env.VITE_API_BASE_URL;
 
   const { data, error, isLoading } = useQuery({
@@ -15,4 +15,4 @@ const useListProductsByID = (id) => {
   return { products: data, error, isLoading };
 };  
 
-export default useListProductsByID;
+export default useFindProductsByID;

@@ -18,7 +18,7 @@ function Home() {
             <ProductCard
               key={product._id}
               nameProduct={product.name}
-              src="public/assents/imageHome.webp"
+              src={product.image}
               price={product.price}
               onClick={() => navigate(`/bebida/${product._id}`)}
             />

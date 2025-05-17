@@ -22,7 +22,7 @@ const ProductCard = ({
       <section className="p-2 rounded-b-lg">
         <h1 className="text-lg text-black font-medium">{nameProduct}</h1>
         <div className="flex justify-between items-between">
-          <p className="font-semibold text-lg text-black">{price}</p>
+          <p className="font-semibold text-lg text-black">R$ {price}</p>
           <Button children="+" />
         </div>
       </section>
