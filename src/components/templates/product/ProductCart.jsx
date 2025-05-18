@@ -1,29 +1,74 @@
 import { useNavigate } from "react-router";
-import { useContext, useState } from "react";
+import { useContext, useState, useEffect } from "react";
 import { CartContext } from "../../../context/ProductCartContext";
 
 import Input from "../../UI/atoms/inputs/Input";
 import Button from "../../UI/atoms/buttons/Button";
 import ProductCartCard from "../../UI/molecules/ProductCartCard";
 import IconHouse from "../../UI/atoms/icons/IconHouse";
+import useLoggedUser from "../../../hooks/useLoggedUser";
+import toast, { Toaster } from "react-hot-toast";
 
 function ProductCart() {
-  const [qtd, setQtd] = useState(1);
-  const [address, setAddress] = useState();
+  const [address, setAddress] = useState("");
+  const [disabledButton, setDisabledButton] = useState(true);
+  const [quantities, setQuantities] = useState({});
   const navigate = useNavigate();
 
   const { cartItems, removeItem, clearCart } = useContext(CartContext);
+  const { user } = useLoggedUser();
 
-  const handleChangeAddress = (e) => {
-    setAddress(e.target.value);
+  useEffect(() => {
+    const initialQuantities = {};
+    cartItems.forEach((item) => {
+      initialQuantities[item.id] = 1;
+    });
+    setQuantities(initialQuantities);
+  }, [cartItems]);
+
+  useEffect(() => {
+    setDisabledButton(!address.trim());
+  }, [address]);
+
+  const handleQuantityChange = (id, delta) => {
+    setQuantities((prev) => ({
+      ...prev,
+      [id]: Math.max((prev[id] || 1) + delta, 1),
+    }));
   };
 
   const calculatePriceTotal = () => {
-    return cartItems.reduce((acc, item) => acc + item.price * qtd, 0);
+    const subtotal = cartItems.reduce((acc, item) => {
+      const qtd = quantities[item.id] || 1;
+      return acc + item.price * qtd;
+    }, 0);
+
+    const deliveryFee = address.trim() ? 10 : 0;
+    return subtotal + deliveryFee;
+  };
+
+  const handleCheckout = () => {
+    if (!user) {
+      toast.error("Faça login para concluir sua compra!");
+      return navigate("/login");
+    }
+
+    navigate("/checkout", {
+      state: {
+        cartItems,
+        address,
+        quantities,
+        user,
+        total: calculatePriceTotal(),
+      },
+    });
+
+    clearCart();
   };
 
   return (
-    <main className="flex flex-col p-4 sm:p-6 gap-6 max-w-4xl mx-auto pb-52 min-h-screen">
+    <main className="flex flex-col p-4 sm:p-6 gap-6 max-w-4xl mx-auto pb-64 min-h-screen">
+      <Toaster />
       <h1
         className="text-lg hover:text-[#1B5E20]"
         onClick={() => navigate("/")}
@@ -44,19 +89,19 @@ function ProductCart() {
         </div>
         <div className="flex justify-start items-start">
           <button
-            onClick={() => clearCart()}
+            onClick={clearCart}
             className="text-sm text-red-600 hover:text-red-500"
           >
             Limpar Tudo
           </button>
         </div>
-        {cartItems.map((item, index) => (
+        {cartItems.map((item) => (
           <ProductCartCard
-            key={index}
-            qtd={qtd}
+            key={item.id}
+            qtd={quantities[item.id] || 1}
             qtdProducts={item.size}
-            qtdDown={() => setQtd((prev) => Math.max(prev - 1, 1))}
-            qtdUp={() => setQtd((prev) => prev + 1)}
+            qtdDown={() => handleQuantityChange(item.id, -1)}
+            qtdUp={() => handleQuantityChange(item.id, 1)}
             nameProduct={item.name}
             price={item.price}
             image={item.image}
@@ -72,22 +117,28 @@ function ProductCart() {
           <Input
             type="text"
             value={address}
-            onChange={handleChangeAddress}
+            onChange={(e) => setAddress(e.target.value)}
             className="h-10 w-full border-gray-300"
             placeholder="Digite seu endereço"
           />
         </div>
       </section>
 
-      <footer
-        className="w-full bg-white border-t border-gray-300 shadow-md p-4 sm:p-6  
-  fixed bottom-0 left-0 sm:static sm:shadow-none"
-      >
+      <footer className="w-full bg-white border-t border-gray-300 shadow-md p-4 sm:p-6 fixed bottom-1 left-0 z-50 md:static md:shadow-none">
+        <div className="flex justify-between text-sm text-gray-600 mb-1">
+          <span>Frete:</span>
+          <span>R$ {address.trim() ? "10.00" : "0,00"}</span>
+        </div>
         <div className="flex justify-between text-lg sm:text-xl font-semibold mb-4">
           <h3>Total:</h3>
-          <p>R$ {calculatePriceTotal()}</p>
+          <p>R$ {calculatePriceTotal().toFixed(2)}</p>
         </div>
-        <Button children="Comprar" className="w-full h-12 sm:h-14" />
+        <Button
+          children="Comprar"
+          disabled={disabledButton}
+          onClick={handleCheckout}
+          className="w-full h-12 sm:h-14"
+        />
       </footer>
     </main>
   );

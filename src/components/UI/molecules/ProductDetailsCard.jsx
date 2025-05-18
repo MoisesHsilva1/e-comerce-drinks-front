@@ -52,7 +52,7 @@ const ProductDetailsCard = ({
             <p className="text-sm text-[#4E625A]">Preço</p>
             <p className="text-2xl font-bold text-[#1B5E20]">R$ {price}</p>
           </div>
-          <Button disabled={disabled} onClick={onClick} className="w-full md:w-auto min-w-[200px]">
+          <Button disabled={disabled} onClick={onClick} className="w-full mb-10 md:w-auto min-w-[200px]">
             Adicionar ao carrinho
           </Button>
         </div>

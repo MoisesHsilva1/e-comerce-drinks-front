@@ -139,7 +139,7 @@ function RegisterProduct() {
             onChange={handleChangeInputs}
           />
           <InputImage name="image" value={image} onChange={handleImageChange} />
-          <Button type="submit" children="Cadastrar" className="w-full" />
+          <Button type="submit" children="Cadastrar" className="w-full mb-10 h-full" />
         </form>
       </section>
     </main>

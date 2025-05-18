@@ -7,7 +7,6 @@ function ProductCartPage() {
     <>
       <Header />
       <ProductCart />
-      <Footer />
     </>
   );
 }
