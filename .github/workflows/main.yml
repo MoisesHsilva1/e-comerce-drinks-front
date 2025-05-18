@@ -9,7 +9,7 @@ on:
       - main
 
 jobs:
-  test:
+  test-and-audit:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -21,28 +21,10 @@ jobs:
           node-version: "16"
 
       - name: Install dependencies
-        run: |
-          npm install
+        run: npm install
 
       - name: Run unit tests with Vitest
-        run: |
-          npm run test
+        run: npm run test
 
       - name: Check vulnerabilities with npm audit
-        run: |
-          npm audit --production --audit-level=high
-
-  snyk:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v2
-        with:
-          node-version: "16"
-
-      - name: Install dependencies
-        run: |
-          npm install
+        run: npm audit --production --audit-level=high
