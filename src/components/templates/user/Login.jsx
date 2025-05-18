@@ -55,6 +55,7 @@ function Login() {
           <form className="flex flex-col gap-4" onSubmit={handleSubmitLogin}>
             <Toaster />
             <Input
+              id="email"
               type="email"
               name="email"
               value={inputsValue.email}
@@ -63,6 +64,7 @@ function Login() {
               placeholder="Digite seu e-mail"
             />
             <InputPassword
+              id="password"
               type="password"
               name="password"
               onChange={handleChangeInputs}

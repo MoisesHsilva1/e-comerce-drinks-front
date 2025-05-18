@@ -6,7 +6,6 @@ const Input = ({
   id,
   value,
   onChange,
-  htmlFor,
   name,
   maxLength,
   disabled,
@@ -14,7 +13,7 @@ const Input = ({
 }) => {
   return (
     <>
-      <label htmlFor={htmlFor} className="text-sm font-medium text-gray-700">
+      <label htmlFor={id} className="text-sm font-medium text-gray-700">
         {label}
       </label>
 

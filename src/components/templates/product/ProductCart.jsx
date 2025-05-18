@@ -70,7 +70,7 @@ function ProductCart() {
     <main className="flex flex-col p-4 sm:p-6 gap-6 max-w-4xl mx-auto pb-64 min-h-screen">
       <Toaster />
       <h1
-        className="text-lg hover:text-[#1B5E20]"
+        className="text-lg font-semibold  hover:text-[#1B5E20]"
         onClick={() => navigate("/")}
       >
         Voltar
@@ -82,7 +82,7 @@ function ProductCart() {
           <h2 className="text-xl font-semibold">Menu</h2>
           <button
             onClick={() => navigate("/")}
-            className="relative text-[#1B5E20] text-sm sm:text-base after:content-[''] after:absolute after:left-0 after:-bottom-0.5 after:w-0 after:h-[2px] after:bg-[#1B5E20] after:transition-all after:duration-300 hover:after:w-full"
+            className="relative text-[#1B5E20] font-medium text-sm sm:text-base after:content-[''] after:absolute after:left-0 after:-bottom-0.5 after:w-0 after:h-[2px] after:bg-[#1B5E20] after:transition-all after:duration-300 hover:after:w-full"
           >
             Adicionar mais
           </button>
@@ -90,7 +90,7 @@ function ProductCart() {
         <div className="flex justify-start items-start">
           <button
             onClick={clearCart}
-            className="text-sm text-red-600 hover:text-red-500"
+            className="text-sm font-medium text-red-600 hover:text-red-500"
           >
             Limpar Tudo
           </button>

@@ -4,6 +4,8 @@ import axios from "axios";
 const sendProductData = async (productData) => {
   const apiUrl = import.meta.env.VITE_API_BASE_URL;
 
+  console.log(apiUrl)
+
   const formData = new FormData();
   formData.append("name", productData.name);
   formData.append("description", productData.description);

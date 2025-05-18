@@ -76,6 +76,7 @@ function Register() {
         >
           <Toaster />
           <Input
+            id="name"
             type="text"
             value={inputsValue.name}
             label="Nome"
@@ -84,6 +85,7 @@ function Register() {
             placeholder="Digite seu nome completo"
           />
           <Input
+            id="email"
             type="email"
             value={inputsValue.email}
             label="Email"
@@ -92,6 +94,7 @@ function Register() {
             placeholder="Digite seu e-mail"
           />
           <InputPassword
+            id="password"
             type="password"
             maxLength={8}
             value={inputsValue.password}
@@ -104,6 +107,7 @@ function Register() {
           />
           <InputPassword
             type="password"
+            id="confirmPassword"
             maxLength={8}
             value={inputsValue.confirmPassword}
             label="Confirmar senha"

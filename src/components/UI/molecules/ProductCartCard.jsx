@@ -1,6 +1,15 @@
 import ButtonAmount from "../atoms/buttons/ButtonAmount";
 
-const ProductCartCard = ({ image, nameProduct, qtdProducts, price, qtd, qtdDown, qtdUp, onClick }) => {
+const ProductCartCard = ({
+  image,
+  nameProduct,
+  qtdProducts,
+  price,
+  qtd,
+  qtdDown,
+  qtdUp,
+  onClick,
+}) => {
   return (
     <div className="flex flex-col sm:flex-row gap-4 p-4 border border-gray-200 rounded-2xl shadow-sm">
       <figure className="w-full sm:w-40 h-40 rounded-2xl overflow-hidden">
@@ -19,7 +28,12 @@ const ProductCartCard = ({ image, nameProduct, qtdProducts, price, qtd, qtdDown,
         <ButtonAmount count={qtd} setCountDown={qtdDown} setCountUp={qtdUp} />
       </section>
       <section>
-        <button onClick={onClick} className="text-sm text-red-500 hover:text-red-400">Remover</button>
+        <button
+          onClick={onClick}
+          className="text-sm font-semibold text-red-500 hover:text-red-400"
+        >
+          Remover
+        </button>
       </section>
     </div>
   );

@@ -26,7 +26,7 @@ function Header() {
   return (
     <>
       <header>
-        <section className="flex justify-end items-center bg-white w-full h-12 p-4">
+        <section className="flex justify-end items-center bg-white w-full h-12 p-4 border-1 border-gray-200">
           <span className="flex flex-row gap-2">
             <Input
               onKeyDown={handleKeyDown}
